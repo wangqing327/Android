@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/bianji"
+        android:title="@string/edit" />
+    <item
+        android:id="@+id/add_date"
+        android:icon="@drawable/bianji"
+        android:title="@string/add" />
+    <item
+        android:id="@+id/del_date"
+        android:icon="@drawable/qingkong_1"
+        android:title="@string/del"/>
+    <item
+        android:id="@+id/open"
+        android:icon="@drawable/dakai"
+        android:title="@string/open" />
+    <item
+        android:id="@+id/copy_user"
+        android:icon="@drawable/copy"
+        android:title="@string/copy_user" />
+    <item
+        android:id="@+id/copy_pwd"
+        android:icon="@drawable/copy"
+        android:title="@string/copy_pwd" />
+    <item
+        android:id="@+id/copy_url"
+        android:icon="@drawable/copy"
+        android:title="@string/copy_url" />
+    <item
+        android:id="@+id/copy_bz"
+        android:icon="@drawable/copy"
+        android:title="@string/copy_bz" />
+
+</menu>

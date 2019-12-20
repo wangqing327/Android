@@ -1,0 +1,100 @@
+<resources>
+    <string name="app_name">密码管理器</string>
+    <string name="wjpwd">忘记密码</string>
+    <string name="bccg">保存成功</string>
+    <string name="bcsb">保存失败</string>
+    <string name="jysb">名称备注信息不能为空\n此值为以后搜索归类凭据</string>
+    <string name="jysb2">密码设置过短，请重新输入！</string>
+    <string name="jysb3">字段设置不完整，请核查!</string>
+    <string name="result">再次按下返回键将退出本软件</string>
+    <!--    提示文本hint-->
+    <string name="srdlmm">请输入登录密码</string>
+    <string name="tip">输入提示问题</string>
+    <string name="tip_x">请输入答案</string>
+    <string name="pwd">请输入密码</string>
+    <string name="pwd2">重复输入密码</string>
+    <string name="user">请输入用户名</string>
+    <string name="url">请输入网页地址</string>
+    <string name="bzxx">请输入类目标签</string>
+    <string name="run">请输入软件名称</string>
+    <string name="visa">请输入卡号信息</string>
+    <string name="email">请输入邮件地址</string>
+    <string name="bzxx2">请输入备注信息</string>
+
+
+    <!--    按钮标题 -->
+    <string name="dlbt">确定</string>
+    <string name="login">登录</string>
+    <string name="bcxx">保存</string>
+    <string name="qx">取消</string>
+    <string name="lbs">请选择类别：</string>
+    <string name="create_table_zpassword">CREATE TABLE \"zpassword\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                " \"password\" TEXT,\"date\" TEXT,\"tip1\" TEXT,\"tip1_x\" TEXT)</string>
+    <string name="create_table_date">CREATE TABLE \"date\" (  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  \"user\" TEXT, " +
+                " \"password\" TEXT,  \"group\" TEXT,  \"url\" TEXT,  \"carID\" text,  \"date\" TEXT,  \"ls\" TEXT, " +
+                " \"ggrq\" TEXT,  \"bz1\" TEXT,  \"bz2\" TEXT,  \"bz3\" TEXT)</string>
+    <string name="sousuo_hint">输入关键字搜索</string>
+    <!--    菜单的标题-->
+    <string name="add">添加数据</string>
+    <string name="clear">清空搜索</string>
+    <string name="about">关于...</string>
+
+    <!--    updatemenu的标题-->
+    <string name="cakan">查看数据</string>
+    <string name="edit">修改数据</string>
+    <string name="open">打开网址</string>
+    <string name="copy_user">复制用户名</string>
+    <string name="copy_pwd">复制密码</string>
+    <string name="run_ru">启动软件</string>
+    <string name="del">删除数据</string>
+    <string name="copy_url">复制网址</string>
+    <string name="copy_bz">复制备注</string>
+
+    //删除条目对话框窗口内文本
+    <string name="title">删除:</string>
+    <string name="message">确定要删除这条数据吗？</string>
+    <string name="but_1">确定</string>
+    <string name="but_2">取消</string>
+    <string name="del_tip_chenggong">删除成功</string>
+    <string name="del_tip_shibai">删除失败</string>
+
+    <!--    activity_update_date
+            用户名密码复制
+
+-->
+    <string name="toast_copy_user">用户名已复制</string>
+    <string name="toast_copy_pwd">密码已复制</string>
+    <string name="toast_copy_url">网址已复制</string>
+    <string name="toast_copy_bz">备注信息已复制</string>
+    <string name="toast_copy_null">没有数据可用于复制</string>
+
+
+    <string name="Name_add">编辑&amp;添加数据</string>
+    <string name="Name_all">数据详情</string>
+    <string name="Name_setting">设置</string>
+    <!--    //网页","电子邮件", "银行卡", "软件", "其他-->
+    <string name="wangye">网页</string>
+    <string name="dzyj">电子邮件</string>
+    <string name="yhk">银行卡</string>
+    <string name="rj">软件</string>
+    <string name="qt">其他</string>
+
+    <!--    表头搜索框文本-->
+    <string name="all">全部</string>
+    <string name="email2">邮件</string>
+    <string name="title_left">全部账号 (</string>
+    <string name="title_right">)个</string>
+
+
+    <!--    帮助信息
+    \u0020英文空格   \u3000中文空格  &nbsp;不可以用？-->
+    <string name="help">帮助:\n
+	\u30001、类目标签可以做为主显示标签，方便归类和查找方便；\n
+	\u30002、密码可以为空，用户名是必须要输入的；\n
+	\u30003、网页地址可以输入也可以留空；\n
+	\u30004、备注信息可以做为备忘或其他标志信息保存，重要信息请勿保存在此项；\n
+	\u3000PS：用户名、密码和网址信息都是经过特殊加密手段保存的，必将护您万无一失。\n
+    </string>
+
+    <string name="openhelp">打开帮助信息</string>
+</resources>

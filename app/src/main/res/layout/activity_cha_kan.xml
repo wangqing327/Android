@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/zubeijing">
+
+    <LinearLayout
+        android:id="@+id/group1"
+        style="@style/xq_lineaylout">
+
+        <ImageView
+            android:id="@+id/bstp"
+            style="@style/xq_img"
+            android:src="@drawable/yonghu" />
+
+        <TextView
+            android:id="@+id/bzm"
+            style="@style/Xq_Text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/group2"
+        style="@style/xq_lineaylout">
+
+        <ImageView
+            style="@style/xq_img"
+            android:src="@drawable/yonghu" />
+
+        <TextView
+            android:id="@+id/user"
+            style="@style/Xq_Text" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/group3"
+        style="@style/xq_lineaylout">
+
+        <ImageView
+            style="@style/xq_img"
+            android:src="@drawable/pwd" />
+
+        <TextView
+            android:id="@+id/pwd"
+            style="@style/Xq_Text"
+            android:textColor="@color/pwd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/group4"
+        style="@style/xq_lineaylout">
+
+        <ImageView
+            style="@style/xq_img"
+            android:src="@drawable/wangye" />
+
+        <TextView
+            android:id="@+id/url"
+            style="@style/Xq_Text"
+            android:autoLink="all"
+            android:textColorLink="@color/url" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/group5"
+        style="@style/xq_lineaylout">
+
+        <ImageView
+            style="@style/xq_img"
+            android:src="@drawable/beizu" />
+
+        <TextView
+            android:id="@+id/bz"
+            style="@style/Xq_Text"
+            android:textColor="@color/url" />
+    </LinearLayout>
+
+</LinearLayout>

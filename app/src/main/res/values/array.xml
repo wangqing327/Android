@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner">
+        <item>网页</item>
+        <item>电子邮件</item>
+        <item>银行卡</item>
+        <item>软件</item>
+        <item>其他</item>
+    </string-array>
+</resources>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <AutoCompleteTextView
+        android:id="@+id/ssk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/biankuang"
+        android:completionThreshold="1"
+        android:hint="@string/sousuo_hint"
+        android:paddingLeft="45dp"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="18dp"
+        android:background="@drawable/sousuo_" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/sousuo_button"
+        android:text="X"
+        android:textColor="#ffffffff"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="62dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/all"
+            style="@style/ExRelativeLayout"
+            android:text="@string/all" />
+
+        <TextView
+            android:id="@+id/web"
+            style="@style/ExRelativeLayout"
+            android:text="@string/wangye" />
+
+        <TextView
+            android:id="@+id/email"
+            style="@style/ExRelativeLayout"
+            android:text="@string/email2" />
+
+        <TextView
+            android:id="@+id/visa"
+            style="@style/ExRelativeLayout"
+            android:text="@string/yhk" />
+
+        <TextView
+            android:id="@+id/rj"
+            style="@style/ExRelativeLayout"
+            android:text="@string/rj" />
+
+        <TextView
+            android:id="@+id/qt"
+            style="@style/ExRelativeLayout"
+            android:text="@string/qt" />
+    </LinearLayout>
+</RelativeLayout>
+
