@@ -8,7 +8,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 
-public class ExRelativeLayout extends RelativeLayout{
+public class ExRelativeLayout extends RelativeLayout {
 
 
     private Animation mExpandAnimation;
@@ -16,18 +16,21 @@ public class ExRelativeLayout extends RelativeLayout{
     private boolean mIsExpand;
 
     public ExRelativeLayout(Context context) {
-        this(context,null);
+        this(context, null);
         // TODO Auto-generated constructor stub
     }
+
     public ExRelativeLayout(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
         // TODO Auto-generated constructor stub
     }
+
     public ExRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         // TODO Auto-generated constructor stub
         initExpandView();
     }
+
     private void initExpandView() {
 
 
@@ -47,6 +50,8 @@ public class ExRelativeLayout extends RelativeLayout{
             @Override
             public void onAnimationEnd(Animation animation) {
                 setVisibility(View.VISIBLE);
+                //下面这行代码必不可少，编辑框会失去焦点
+                findViewById(R.id.ssk).requestFocus();
             }
         });
 
@@ -70,6 +75,7 @@ public class ExRelativeLayout extends RelativeLayout{
         });
 
     }
+
     public void collapse() {
         if (mIsExpand) {
             mIsExpand = false;
@@ -91,13 +97,12 @@ public class ExRelativeLayout extends RelativeLayout{
         return mIsExpand;
     }
 
-    public void setContentView(){
+    public void setContentView() {
         View view;
         view = LayoutInflater.from(getContext()).inflate(R.layout.exrelative, null);
         removeAllViews();
         addView(view);
     }
-
 
 
 }

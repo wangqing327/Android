@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/zubeijing">
+    style="@style/zbj">
 
     <ScrollView
         android:id="@+id/agdrq"
@@ -11,9 +11,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:weightSum="1"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -61,35 +61,33 @@
                 android:id="@+id/bz"
                 style="@style/add_text"
                 android:hint="@string/bzxx"
-                android:inputType="text"/>
+                android:inputType="text" />
 
             <EditText
                 android:id="@+id/user"
                 style="@style/add_text"
                 android:hint="@string/user"
-                android:inputType="textUri"/>
+                android:inputType="textUri" />
 
             <EditText
                 android:id="@+id/pwd"
                 style="@style/add_text"
                 android:hint="@string/pwd"
-                android:textColor="@color/pwd"
-                android:inputType="textVisiblePassword"/>
+                android:inputType="textVisiblePassword"
+                android:textColor="@color/pwd" />
 
             <EditText
                 android:id="@+id/url"
                 style="@style/add_text"
                 android:hint="@string/url"
-                android:textColor="@color/url"
-                android:inputType="textUri"/>
+                android:inputType="textUri"
+                android:textColor="@color/url" />
 
             <EditText
                 android:id="@+id/bz2"
                 style="@style/add_text"
                 android:hint="@string/bzxx2"
-                android:inputType="text"/>
-
-
+                android:inputType="text" />
 
 
             <LinearLayout
@@ -97,9 +95,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="1"
                 android:gravity="bottom|center"
                 android:orientation="horizontal"
-                android:layout_weight="1"
                 android:weightSum="100">
 
                 <Button
@@ -118,10 +116,10 @@
                 android:id="@+id/help"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:contextClickable="true"
                 android:gravity="center_vertical"
-                android:weightSum="1"
-                android:contextClickable="true">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <TextView
                     android:layout_width="0dp"
@@ -131,20 +129,21 @@
                     android:text="@string/openhelp"
                     android:textSize="16sp" />
 
-                <ImageView style="@style/xq_img"
+                <ImageView
                     android:id="@+id/help_img"
-                    android:src="@drawable/bootom"/>
+                    style="@style/xq_img"
+                    android:src="@drawable/bootom" />
 
             </LinearLayout>
             <!--帮助信息-->
             <TextView
+                android:id="@+id/help_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="@string/help"
                 android:textSize="16sp"
-                android:visibility="gone"
-                android:id="@+id/help_txt"/>
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

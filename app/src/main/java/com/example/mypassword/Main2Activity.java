@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -89,7 +88,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - clicktime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.isExit),
+                        Toast.LENGTH_SHORT).show();
                 clicktime = System.currentTimeMillis();
             } else {
                 finish();
@@ -130,8 +130,8 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             // System.exit(0);
             //android.os.Process.killProcess(android.os.Process.myPid());
         } else {
-            Toast.makeText(this, "密码错误", LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, getResources().getString(R.string.pwdError),
+                    LENGTH_SHORT).show();
 
             edit_pwd.requestFocus();
 

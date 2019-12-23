@@ -1,5 +1,6 @@
 package com.example.mypassword;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,8 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -17,8 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
@@ -36,7 +37,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.mypassword.R.drawable.linelayout_line;
+import static android.text.Html.fromHtml;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final String TAG = "MainActivity";
     private static int selection_id = 0;//记住上次选中的ID
     SQLiteDatabase db;
-    AutoCompleteTextView edit;
+    EditText edit;
     RecyclerView recycler;
 
     private List<com.example.mypassword.RecyclerViewAdapter.CarCaption> list = new ArrayList<>();
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //取消自动完成功能
         //AutoEditAdapter madapter = new AutoEditAdapter(this, null, 0);
         //edit.setAdapter(madapter);
+
         edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 (2, StaggeredGridLayoutManager.VERTICAL);
 
         recycler.setLayoutManager(s_manger);
-        recycler.setPadding(5,5,5,5);
+        recycler.setPadding(5, 5, 5, 5);
 
         //设置Item间隔
 //        HashMap<String, Integer> map = new HashMap<>();
@@ -157,8 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             textView = findViewById(R.id.action_bar_title);
             exRelativeLayout.setContentView();
             group1 = findViewById(R.id.all);
-            group1.setBackground(getDrawable(linelayout_line));
-            group1.setOnClickListener(this);
+            group1.setBackground(getDrawable(R.drawable.linelayout_line));
             group2 = findViewById(R.id.web);
             group3 = findViewById(R.id.email);
             group4 = findViewById(R.id.visa);
@@ -171,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             group4.setOnClickListener(this);
             group5.setOnClickListener(this);
             group6.setOnClickListener(this);
+
+
             imageView = findViewById(R.id.toporbootom);
 //            设置图片框动画  起始度数  终止度数  起始X坐标  起始Y坐标
             final RotateAnimation animation_top = new RotateAnimation(0, 720,
@@ -186,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             layout = findViewById(R.id.xsdw);
 
-            layout.setClickable(true);
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -242,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onMenuOpened(featureId, menu);
     }
 
+    @SuppressLint("DefaultLocale")
     public void addDate() {
 
 
@@ -261,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 list.add(carCaption);
             }
             //载入HTML文本
-            textView.setText(Html.fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
+            textView.setText(fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
                     cursor.getCount(), getResources().getString(R.string.title_right))));
 
             cursor.close();
@@ -278,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Cursor cursor = db.rawQuery(sql, null);
         adapter.removeAll();
         list.clear();
-        textView.setText(Html.fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
+        textView.setText(fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
                 cursor.getCount(), getResources().getString(R.string.title_right))));
         while (cursor.moveToNext()) {
             RecyclerViewAdapter.CarCaption carCaption;
@@ -290,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.thlist(list);
     }
 
+    @SuppressLint("DefaultLocale")
     public void ppgjz2(String group) {
         String sql;
         if (group.equals("全部")) {
@@ -302,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Cursor cursor = db.rawQuery(sql, null);
         adapter.removeAll();
         list.clear();
-        textView.setText(Html.fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
+        textView.setText(fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
                 cursor.getCount(), getResources().getString(R.string.title_right))));
         while (cursor.moveToNext()) {
             RecyclerViewAdapter.CarCaption carCaption;
@@ -328,7 +332,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
             if ((System.currentTimeMillis() - clicktime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.isExit),
+                        Toast.LENGTH_SHORT).show();
                 clicktime = System.currentTimeMillis();
             } else {
                 finish();
@@ -353,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.all:
                 if (selection_id != 0) {
                     rester();
-                    group1.setBackground(getDrawable(linelayout_line));
+                    group1.setBackground(getDrawable(R.drawable.linelayout_line));
                     selection_id = 0;
                     ppgjz2(group1.getText().toString());
                 }
@@ -361,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.web:
                 if (selection_id != 1) {
                     rester();
-                    group2.setBackground(getDrawable(linelayout_line));
+                    group2.setBackground(getDrawable(R.drawable.linelayout_line));
                     selection_id = 1;
                     ppgjz2(group2.getText().toString());
                 }
@@ -369,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.email:
                 if (selection_id != 2) {
                     rester();
-                    group3.setBackground(getDrawable(linelayout_line));
+                    group3.setBackground(getDrawable(R.drawable.linelayout_line));
                     selection_id = 2;
                     ppgjz2(group3.getText().toString());
                 }
@@ -377,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.visa:
                 if (selection_id != 3) {
                     rester();
-                    group4.setBackground(getDrawable(linelayout_line));
+                    group4.setBackground(getDrawable(R.drawable.linelayout_line));
                     selection_id = 3;
                     ppgjz2(group4.getText().toString());
                 }
@@ -385,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rj:
                 if (selection_id != 4) {
                     rester();
-                    group5.setBackground(getDrawable(linelayout_line));
+                    group5.setBackground(getDrawable(R.drawable.linelayout_line));
                     selection_id = 4;
                     ppgjz2(group5.getText().toString());
                 }
@@ -393,10 +398,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.qt:
                 if (selection_id != 5) {
                     rester();
-                    group6.setBackground(getDrawable(linelayout_line));
+                    group6.setBackground(getDrawable(R.drawable.linelayout_line));
                     selection_id = 5;
                     ppgjz2(group6.getText().toString());
                 }
+                break;
+            case R.id.ssk:
+                Log.d(TAG, "编辑框被单击");
+                edit.requestFocus();
                 break;
         }
     }
@@ -417,6 +426,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         // super.onActivityResult(requestCode, resultCode, data);
@@ -425,7 +435,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             case 1:
                 //添加数据窗口返回的数据
+                assert data != null;
                 Bundle bundle = data.getExtras();
+                assert bundle != null;
                 String label = bundle.getString("label");
                 String group = bundle.getString("group");
                 String bz = bundle.getString("bz2");
@@ -434,12 +446,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 if (adapter != null) {
                     adapter.addDate(carCaption);
-                    textView.setText(Html.fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
+                    textView.setText(fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
                             adapter.getItemCount(), getResources().getString(R.string.title_right))));
                 }
                 break;
             case 2:
                 //数据详情页面返回的数据
+                assert data != null;
                 String res = data.getStringExtra("result");
                 if (res.equals("ok")) {
                     id = data.getIntExtra("id", 0);
@@ -450,7 +463,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else if ("delete".equals("delete")) {
                     id = data.getIntExtra("id", 0);
                     adapter.remove_id(id);
-                    textView.setText(Html.fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
+                    textView.setText(fromHtml(String.format("%s<font color = red>%d</font>%s", getResources().getString(R.string.title_left),
                             adapter.getItemCount(), getResources().getString(R.string.title_right))));
                 }
                 break;
@@ -491,7 +504,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 if (i >= 1) {
                                     Toast.makeText(MainActivity.this, getResources().getString(R.string.del_tip_chenggong), Toast.LENGTH_SHORT).show();
                                     adapter.remove_position(pos);
-                                    textView.setText(Html.fromHtml(String.format("%s<font color = red>%d</font>%s",
+                                    textView.setText(fromHtml(String.format("%s<font color = red>%d</font>%s",
                                             getResources().getString(R.string.title_left), adapter.getItemCount(), getResources().getString(R.string.title_right))));
                                 } else {
                                     Toast.makeText(MainActivity.this, getResources().getString(R.string.del_tip_shibai), Toast.LENGTH_SHORT).show();
