@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private com.example.mypassword.RecyclerViewAdapter adapter;
     private ExRelativeLayout exRelativeLayout;
     private TextView textView, group1, group2, group3, group4, group5, group6;
-    private LinearLayout layout;
     private ImageView imageView;
 
     @Override
@@ -187,9 +185,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //imageView.setAnimation(animation);
 
 
-            layout = findViewById(R.id.xsdw);
+            LinearLayout linearLayout = findViewById(R.id.xsdw);
 
-            layout.setOnClickListener(new View.OnClickListener() {
+            linearLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (exRelativeLayout.isExpand()) {
@@ -404,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.ssk:
-                Log.d(TAG, "编辑框被单击");
+              //  Log.d(TAG, "编辑框被单击");
                 edit.requestFocus();
                 break;
         }
@@ -467,8 +465,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             adapter.getItemCount(), getResources().getString(R.string.title_right))));
                 }
                 break;
-
-
         }
     }
 
