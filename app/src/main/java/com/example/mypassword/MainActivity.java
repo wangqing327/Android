@@ -42,7 +42,7 @@ import static android.text.Html.fromHtml;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button button;
-    long clicktime;
+    long ClickTime;
     final String TAG = "MainActivity";
     private static int selection_id = 0;//记住上次选中的ID
     SQLiteDatabase db;
@@ -331,10 +331,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - clicktime) > 2000) {
+            if ((System.currentTimeMillis() - ClickTime) > 2000) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.isExit),
                         Toast.LENGTH_SHORT).show();
-                clicktime = System.currentTimeMillis();
+                ClickTime = System.currentTimeMillis();
             } else {
                 finish();
                 System.exit(0);
