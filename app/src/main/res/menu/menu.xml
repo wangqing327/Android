@@ -21,6 +21,16 @@
         android:icon="@drawable/qingkong"
         android:title="@string/clear" />
     <item
+        android:id="@+id/qianru"
+        android:icon="@drawable/qingkong"
+        android:title="@string/qianru" />
+
+    <item
+        android:id="@+id/qianchu"
+        android:icon="@drawable/qingkong"
+        android:title="@string/qianchu" />
+
+    <item
         android:id="@+id/about"
         android:icon="@drawable/guanyu"
         android:title="@string/about" />

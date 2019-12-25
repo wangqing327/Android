@@ -9,28 +9,29 @@
         android:id="@+id/ssk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:background="@drawable/bk"
+        android:focusable="true"
+        android:hint="@string/sousuo_hint"
+        android:inputType="text"
+        android:paddingStart="45dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:hint="@string/sousuo_hint"
-        android:paddingStart="45dp"
-        android:textSize="18sp"
-        android:inputType="text"/>
+        android:textSize="18sp" />
 
     <ImageView
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_margin="18dp"
+        android:layout_margin="10dp"
         android:background="@drawable/sousuo_"
-        android:focusable="true"/>
+        android:focusable="true" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/button_clear"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="18dp"
         android:background="@drawable/sousuo_button"
         android:text="X"
@@ -41,13 +42,14 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ssk"
+        android:focusable="false"
         android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="62dp"
             android:gravity="center"
             android:orientation="horizontal">
 

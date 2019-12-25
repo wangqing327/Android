@@ -38,6 +38,8 @@
     <string name="add">添加数据</string>
     <string name="clear">清空搜索</string>
     <string name="about">关于...</string>
+    <string name="qianru">导入数据</string>
+    <string name="qianchu">导出数据</string>
 
     <!--    updatemenu的标题-->
     <string name="cakan">查看数据</string>
@@ -100,4 +102,14 @@
 
     <string name="isExit">再按一次退出程序</string>
     <string name="pwdError">密码错误</string>
+
+
+    <string name="dcSql">select user,password,\"group\",url,carID,date,ls,ggrq,bz1,bz2,bz3 from date</string>
+
+    <string name="drsb">导入数据失败</string>
+    <string name="dcsb">导出数据失败</string>
+    <string name="drcg">导入数据成功</string>
+    <string name="dccg">导出数据成功</string>
+
+    <string name="file_error">数据文件不存在</string>
 </resources>
