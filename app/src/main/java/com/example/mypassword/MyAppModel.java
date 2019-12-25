@@ -1,8 +1,11 @@
 package com.example.mypassword;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.ServiceConnection;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,6 +15,7 @@ public class MyAppModel extends Application {
     private static long cstime;
     private String DbPath;
     public static String zpassword;
+    private static final String DCMM = "MyPassword_DCDRMM_沙漠孤孤舟_wangqinq327";
 
     public void setDbPath(String path) {
         this.DbPath = path;
@@ -23,7 +27,7 @@ public class MyAppModel extends Application {
 
     public static String getdate() {
         Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return sdf.format(date);
     }
 
@@ -58,4 +62,9 @@ public class MyAppModel extends Application {
         return helper.getWritableDatabase();
     }
 
+    public static String getDcmm(){return DCMM;}
+
+    public static void ShowToast(Context context,int msgID){
+        Toast.makeText(context,msgID,Toast.LENGTH_SHORT).show();
+    }
 }
