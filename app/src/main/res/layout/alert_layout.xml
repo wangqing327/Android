@@ -7,17 +7,16 @@
 
     <EditText
         android:id="@+id/Edit_pwd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bk"
-        android:hint="@string/srdlmm"
-        android:inputType="textPassword"
-        android:paddingStart="10dp"
-        android:selectAllOnFocus="true"/>
+        style="@style/AlertDialog_up_pwd"
+        android:hint="@string/srymm" />
+    <EditText
+        android:id="@+id/Edit_pwd1"
+        style="@style/AlertDialog_up_pwd"
+        android:hint="@string/srxmm" />
+    <EditText
+        android:id="@+id/Edit_pwd2"
+        style="@style/AlertDialog_up_pwd"
+        android:hint="@string/zcxmm" />
 
 
     <LinearLayout
@@ -25,18 +24,8 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:orientation="horizontal"
-        android:transitionGroup="false">
+        android:transitionGroup="false" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:autoLink="all"
-            android:text="@string/wjpwd"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="16sp" />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

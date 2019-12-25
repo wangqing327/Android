@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 
 public class Alert extends Dialog {
@@ -30,7 +27,7 @@ public class Alert extends Dialog {
         private int mode;
         private Button button;
         private View mlayout;
-        private EditText pwd,  pwd2;
+        private EditText pwd, pwd2, pwd3;
 
 
         public Builder(final Context context, int mode) {
@@ -39,72 +36,94 @@ public class Alert extends Dialog {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (mode == 1) {
                 mlayout = inflater.inflate(R.layout.alert_layout, null);
+                pwd3 = mlayout.findViewById(R.id.Edit_pwd1);
             } else if (mode == 2) {
                 mlayout = inflater.inflate(R.layout.alert_zuce, null);
-//                tip = mlayout.findViewById(R.id.Edit_tip1);
-//                tip_x = mlayout.findViewById(R.id.Edit_tip1_x);
-                pwd2 = mlayout.findViewById(R.id.Edit_pwd2);
             }
             pwd = mlayout.findViewById(R.id.Edit_pwd);
+            pwd2 = mlayout.findViewById(R.id.Edit_pwd2);
             button = mlayout.findViewById(R.id.alert_button);
             button.setTag(mode);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int i = (int) v.getTag();
-                    DatabaseHelper helper = new DatabaseHelper(context, "p.db", null, 1);
-                    SQLiteDatabase db = helper.getWritableDatabase();
-                    if (i == 1) {
-                        //登录界面
-                        String p = pwd.getText().toString();
-                        Cursor cr = db.rawQuery("SELECT password from zpassword where password = '" + p + "'", null);
-                        if (cr.getCount() >= 1) {
-                            //登录成功
-                            while (cr.moveToNext()) {
-                                if (p.equals(cr.getString(0))) {
-                                    //登录成功
-                                    malert.dismiss();
-                                }
+                    SQLiteDatabase db = MyAppModel.getDb(context);
+                    switch ((int) v.getTag()) {
+                        case 1:
+                            //修改登录密码
+                            String p2 = pwd2.getText().toString();
+                            String p3 = pwd3.getText().toString();
+                            if (!p2.trim().equals(p3.trim())) {
+                                MyAppModel.ShowToast(context, R.string.pwd_yz);
+                                pwd3.setText("");
+                                pwd2.setText("");
+                                pwd3.requestFocus();
+                                return;
                             }
-                        } else {
-                            Toast.makeText(context, "密码错误！", Toast.LENGTH_SHORT).show();
-                            pwd.setText("");
-                            pwd.requestFocus();
-                        }
-                        //关闭记录集
-                        cr.close();
-                    } else if (i == 2) {
-                        //注册界面
-                        String pw1 = pwd.getText().toString();
-                        pw1 = pw1.trim();
+                            String p = pwd.getText().toString();
+                            String _p = AES.encrypt("wangqing00",p);
+                            Cursor cr = db.rawQuery("SELECT password from zpassword where password = '"
+                                    + AES.encrypt("wangqing00", p) + "'", null);
+                            if (cr.getCount() >= 1) {
+                                //登录成功
+                                cr.moveToNext();
+                                if (_p.equals(cr.getString(0))) {
+                                    ghmm(p,p2,db);
+                                    Toast.makeText(context, context.getResources().getString(R.string.szmmcg) +
+                                            ":\n" + p2.trim(), Toast.LENGTH_SHORT).show();
+                                    malert.dismiss();
+                                } else {
+                                    MyAppModel.ShowToast(context, R.string.szmmsb);
+                                }
 
-                        String pw2 = pwd2.getText().toString();
-                        pw2 = pw2.trim();//删除首尾空白
-//
-                        if (pw1.length() < 6) {//密码长度小于6不合格
-                            Toast.makeText(context, "密码设置过短，请重新输入！", Toast.LENGTH_SHORT).show();
-                            pwd2.setText("");
-                            pwd.setText("");
-                            pwd.requestFocus();//获得焦点
+                            } else {
+                                //密码错误
+                                MyAppModel.ShowToast(context, R.string.pwdError);
+                                pwd.setText("");
+                                pwd.requestFocus();
+                            }
+                            //关闭记录集
+                            cr.close();
+                            break;
+                        case 2:
+                            //注册界面
+                            String pw1 = pwd.getText().toString();
+                            pw1 = pw1.trim();
+                            String pw2 = pwd2.getText().toString();
+                            pw2 = pw2.trim();//删除首尾空白//
+                            if (pw1.length() < 6) {//密码长度小于6不合格
+                                //密码设置过短，请重新输入！
+                                MyAppModel.ShowToast(context, R.string.pwd_yz3);
+                                pwd2.setText("");
+                                pwd.setText("");
+                                pwd.requestFocus();//获得焦点
+                            } else if (TextUtils.isEmpty(pw1) || TextUtils.isEmpty(pw2)) {
+                                //字段设置不完整，请核查
+                                MyAppModel.ShowToast(context, R.string.pwd_yz2);
+                            } else if (!pw1.equals(pw2)) {
+                                //两次输入密码不一致
+                                pwd2.setText("");
+                                pwd.setText("");
+                                pwd.requestFocus();//获得焦点
+                                MyAppModel.ShowToast(context, R.string.pwd_yz);
+                            } else {
+                                //验证都通过
+                                malert.dismiss();
+                                ContentValues values = new ContentValues();
+                                values.put("password", AES.encrypt("wangqing00", pw1));
+                                values.put("date", MyAppModel.getdate());
+                                long id = db.insert("zpassword", null, values);
+                                //Log.d("Insert", "insertid-->" + id);
+                                if (id > 0) {
+                                    Toast.makeText(context, context.getResources().getString(R.string.szmmcg) +
+                                            ":" + pw1, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    MyAppModel.ShowToast(context, R.string.szmmsb);
+                                }
 
-                        } else if (pw1.equals("") | pw2.equals("")) {
-                            Toast.makeText(context, "字段设置不完整，请核查", Toast.LENGTH_SHORT).show();
-
-                        } else if (!pw1.equals(pw2)) {
-                            Toast.makeText(context, "两次输入密码不一致", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            //验证都通过
-                            malert.dismiss();
-                            ContentValues values = new ContentValues();
-                            values.put("password", AES.encrypt("wangqing00",pw1));
-                            values.put("date", MyAppModel.getdate());
-                            //values.put("tip1", tip_text);
-                            //values.put("tip1_x", tipx_text);
-                            long id = db.insert("zpassword", null, values);
-                            Log.d("Insert", "insertid-->" + id);
-                        }
+                            }
+                            break;
 
                     }
 
@@ -120,8 +139,53 @@ public class Alert extends Dialog {
             return malert;
         }
 
+        private void ghmm(final String ymm, final String xmm, final SQLiteDatabase db) {
+            new Thread(new Runnable() {
+                String sql = "select _id,user,password,url from date";
+                @Override
+                public void run() {
+                    try {
+                        Cursor cursor = db.rawQuery(sql, null);
+                        if (cursor.getCount() <= 0) {
+                            return;
+                        }
+                        while (cursor.moveToNext()) {
+                            String user = cursor.getString(cursor.getColumnIndex("user"));
+                            String pwd = cursor.getString(cursor.getColumnIndex("password"));
+                            String url = cursor.getString(cursor.getColumnIndex("url"));
+                            int _id = cursor.getInt(cursor.getColumnIndex("_id"));
 
+                            user = AES.decrypt(ymm, user);
+                            user = AES.encrypt(xmm, user);
 
+                            pwd = AES.decrypt(ymm, pwd);
+                            pwd = AES.encrypt(xmm, pwd);
+
+                            url = AES.decrypt(ymm, url);
+                            url = AES.encrypt(xmm, url);
+
+                            ContentValues values = new ContentValues();
+                            values.put("user", user);
+                            values.put("password", pwd);
+                            values.put("url", url);
+                            int i = db.update("date", values, "_id = " + _id, null);
+                            Log.d("update", "ghmm:" + i);
+                            values.clear();
+                        }
+                        cursor.close();
+                        //更新主密码
+                        ContentValues val = new ContentValues();
+                        val.put("date",MyAppModel.getdate());
+                        val.put("password",AES.encrypt("wangqing00",xmm));
+                        int i = db.update("zpassword",val,"_id = 1",null);
+                        val.clear();
+                        MyAppModel.setZpassword(xmm);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
     }
 
 

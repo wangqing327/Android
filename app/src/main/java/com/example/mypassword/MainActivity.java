@@ -18,6 +18,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -138,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 PopupMenu popupMenu = new PopupMenu(MainActivity.this, view);
                 Menu menu = popupMenu.getMenu();
                 popupMenu.getMenuInflater().inflate(R.menu.menu, menu);
-                menu.removeItem(R.id.clear);
                 menu.removeItem(R.id.about);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
@@ -499,9 +500,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //Toast.makeText(this,"Add",Toast.LENGTH_SHORT).show();
                 startActivityForResult(new Intent(this, AddDate.class), 1);
                 break;
-            case R.id.clear:
-                edit.setText("");
-                break;
             case R.id.about:
                 Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
                 break;
@@ -560,8 +558,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.qianchu:
                 //导出数据
                 outputDate();
-
                 break;
+            case R.id.ghmm:
+                //更换登录密码
+                Alert dig = new Alert.Builder(this, 1).Create();
+                dig.show();
+                Window wd = dig.getWindow();
+                assert wd != null;
+                WindowManager.LayoutParams lp = wd.getAttributes();
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                wd.setAttributes(lp);
         }
         return true;
     }
@@ -632,7 +638,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             cursor.close();
             xml.append("</RECORDS>\n");
             //getExternalCacheDir()
-            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), "MyPassWordDate/date.xml");
+            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(),
+                    "MyPassWordDate/date.xml");
            // File xml_path = new File(getExternalCacheDir(), "date.xml");
             if(!xml_path.exists()){
                 File file = xml_path.getParentFile();
@@ -656,7 +663,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser xmlPullParser = factory.newPullParser();
-            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), "MyPassWordDate/date.xml");
+            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(),
+                    "MyPassWordDate/date.xml");
             if(!xml_path.exists()){
                 MyAppModel.ShowToast(this,R.string.file_error);
                 return;
