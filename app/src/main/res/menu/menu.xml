@@ -6,30 +6,29 @@
         android:title="@string/cakan" />
     <item
         android:id="@+id/add"
-        android:icon="@drawable/bianji"
+        android:icon="@drawable/jiaru"
         android:title="@string/add" />
     <item
         android:id="@+id/edit"
-        android:icon="@drawable/bianji"
+        android:icon="@drawable/xiugai"
         android:title="@string/edit" />
     <item
         android:id="@+id/del"
         android:icon="@drawable/qingkong_1"
         android:title="@string/del" />
     <item
-        android:id="@+id/clear"
-        android:icon="@drawable/qingkong"
-        android:title="@string/clear" />
-    <item
         android:id="@+id/qianru"
-        android:icon="@drawable/qingkong"
+        android:icon="@drawable/daoru"
         android:title="@string/qianru" />
 
     <item
         android:id="@+id/qianchu"
-        android:icon="@drawable/qingkong"
-        android:title="@string/qianchu" />
-
+        android:icon="@drawable/daochu"
+        android:title="@string/daochusb" />
+    <item
+        android:id="@+id/ghmm"
+        android:icon="@drawable/xiugaimima"
+        android:title="@string/ghmm" />
     <item
         android:id="@+id/about"
         android:icon="@drawable/guanyu"

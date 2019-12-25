@@ -1,16 +1,24 @@
 <resources>
     <string name="app_name">密码管理器</string>
-    <string name="wjpwd">忘记密码</string>
     <string name="bccg">保存成功</string>
     <string name="bcsb">保存失败</string>
     <string name="jysb">名称备注信息不能为空\n此值为以后搜索归类凭据</string>
-    <string name="jysb2">密码设置过短，请重新输入！</string>
     <string name="jysb3">字段设置不完整，请核查!</string>
-    <string name="result">再次按下返回键将退出本软件</string>
+
+    <string name="pwd_yz2">字段设置不完整，请核查</string>
+    <string name="pwd_yz">两次输入密码不一致</string>
+    <string name="pwd_yz3">密码设置过短，请重新输入！</string>
+    <string name="szmmcg">密码设置成功，请牢记您的密码</string>
+
+    <string name="szmmsb">密码设置失败！</string>
+
+
+
     <!--    提示文本hint-->
     <string name="srdlmm">请输入登录密码</string>
-    <string name="tip">输入提示问题</string>
-    <string name="tip_x">请输入答案</string>
+    <string name="srymm">请输入原密码</string>
+    <string name="srxmm">请输入新密码</string>
+    <string name="zcxmm">再次输入新密码</string>
     <string name="pwd">请输入密码</string>
     <string name="pwd2">重复输入密码</string>
     <string name="user">请输入用户名</string>
@@ -28,18 +36,14 @@
     <string name="bcxx">保存</string>
     <string name="qx">取消</string>
     <string name="lbs">请选择类别：</string>
-    <string name="create_table_zpassword">CREATE TABLE \"zpassword\" (\"id\" integer NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                " \"password\" TEXT,\"date\" TEXT,\"tip1\" TEXT,\"tip1_x\" TEXT)</string>
-    <string name="create_table_date">CREATE TABLE \"date\" (  \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,  \"user\" TEXT, " +
-                " \"password\" TEXT,  \"group\" TEXT,  \"url\" TEXT,  \"carID\" text,  \"date\" TEXT,  \"ls\" TEXT, " +
-                " \"ggrq\" TEXT,  \"bz1\" TEXT,  \"bz2\" TEXT,  \"bz3\" TEXT)</string>
     <string name="sousuo_hint">输入关键字搜索</string>
     <!--    菜单的标题-->
     <string name="add">添加数据</string>
-    <string name="clear">清空搜索</string>
     <string name="about">关于...</string>
     <string name="qianru">导入数据</string>
-    <string name="qianchu">导出数据</string>
+    <string name="daochusb">导出数据</string>
+    <string name="ghmm">更换密码</string>
+
 
     <!--    updatemenu的标题-->
     <string name="cakan">查看数据</string>
@@ -47,7 +51,6 @@
     <string name="open">打开网址</string>
     <string name="copy_user">复制用户名</string>
     <string name="copy_pwd">复制密码</string>
-    <string name="run_ru">启动软件</string>
     <string name="del">删除数据</string>
     <string name="copy_url">复制网址</string>
     <string name="copy_bz">复制备注</string>
@@ -73,7 +76,6 @@
 
     <string name="Name_add">编辑&amp;添加数据</string>
     <string name="Name_all">数据详情</string>
-    <string name="Name_setting">设置</string>
     <!--    //网页","电子邮件", "银行卡", "软件", "其他-->
     <string name="wangye">网页</string>
     <string name="dzyj">电子邮件</string>
@@ -107,9 +109,7 @@
     <string name="dcSql">select user,password,\"group\",url,carID,date,ls,ggrq,bz1,bz2,bz3 from date</string>
 
     <string name="drsb">导入数据失败</string>
-    <string name="dcsb">导出数据失败</string>
     <string name="drcg">导入数据成功</string>
-    <string name="dccg">导出数据成功</string>
 
     <string name="file_error">数据文件不存在</string>
 </resources>

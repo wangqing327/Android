@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="pwd">#F44336</color>
     <color name="url">#B3673AB7</color>
-    <color name="bz">#CDDC39</color>
     <color name="ic_launcher_background">#CDDC39</color>
     <color name="title">#073C53</color>
     <color name="bt">#0B212B</color>
 <!--    表头默认背景颜色-->
-    <color name="restue">#F0EDF5</color>
 </resources>

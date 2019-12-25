@@ -63,7 +63,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
     //检查数据库中是否有主密码
     public void init() {
-        int mode = 0;
+        int mode;
         Cursor cursor = db.rawQuery("select _id,password from zpassword order by _id desc", null);
         if (cursor.getCount() <= 0) {
             mode = 2;
@@ -76,8 +76,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             wd.setAttributes(lp);
             dig.setCancelable(false);//返回键关闭取消
-        } else {
-
         }
 
     }
@@ -126,13 +124,10 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             //销毁方法
             //finish也会经过onDestory
             finish();
-            //this.onDestroy();
-            // System.exit(0);
+            //System.exit(0);
             //android.os.Process.killProcess(android.os.Process.myPid());
         } else {
-            Toast.makeText(this, getResources().getString(R.string.pwdError),
-                    LENGTH_SHORT).show();
-
+            MyAppModel.ShowToast(this,R.string.pwdError);
             edit_pwd.requestFocus();
 
         }

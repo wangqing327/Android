@@ -6,7 +6,6 @@
     android:background="@drawable/popup_biankuang">
 
     <TextView
-        android:id="@+id/TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
