@@ -656,7 +656,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser xmlPullParser = factory.newPullParser();
-            File xml_path = new File(Environment.getExternalStorageDirectory(), "MyPassWordDate/date.xml");
+            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(), "MyPassWordDate/date.xml");
             if(!xml_path.exists()){
                 MyAppModel.ShowToast(this,R.string.file_error);
                 return;
