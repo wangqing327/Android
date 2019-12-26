@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -415,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.ssk:
-                Log.d(TAG, "编辑框被单击");
+              //  Log.d(TAG, "编辑框被单击");
                 edit.requestFocus();
                 break;
 
@@ -483,8 +482,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             adapter.getItemCount(), getResources().getString(R.string.title_right))));
                 }
                 break;
-
-
         }
     }
 
