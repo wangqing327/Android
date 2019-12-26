@@ -27,7 +27,7 @@ public class MyAppModel extends Application {
 
     public static String getdate() {
         Date date = Calendar.getInstance().getTime();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd- HH:mm:ss");
         return sdf.format(date);
     }
 

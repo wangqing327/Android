@@ -652,8 +652,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             outputStream.write(xml.toString().getBytes());
             xml.setLength(0);
             outputStream.close();
+            Toast.makeText(this,getResources().getString(R.string.dccg_path)
+                    +"\n"+xml_path.toString(),Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            e.printStackTrace();
+            Toast.makeText(this,getResources().getString(R.string.dcsb)
+            +"\n"+e.toString(),Toast.LENGTH_LONG).show();
         }
 
     }
