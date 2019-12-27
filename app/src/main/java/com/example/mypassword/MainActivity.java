@@ -10,6 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -48,6 +50,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.text.Html.fromHtml;
+import static android.widget.Toast.LENGTH_LONG;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -414,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.ssk:
-              //  Log.d(TAG, "编辑框被单击");
+                //  Log.d(TAG, "编辑框被单击");
                 edit.requestFocus();
                 break;
 
@@ -537,7 +540,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 openxiangqing(pos);
                 break;
             case R.id.edit:
-                if(list.size()<=0){
+                if (list.size() <= 0) {
                     break;
                 }
                 RecyclerViewAdapter.CarCaption carCaption = list.get(pos);
@@ -591,165 +594,215 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    public void outputDate() {
-        String sql = getResources().getString(R.string.dcSql);
-        Cursor cursor = db.rawQuery(sql, null);
-        //select user,password,"group",url,carID,date,ls,ggrq,bz1,bz2,bz3 from date
-        if(cursor.getCount()==0){
-            cursor.close();
-            return;
-        }
-        String dcmm = MyAppModel.getDcmm();
-        try {
-            StringBuffer xml = new StringBuffer();
-            //  \t  Tab  \n空格
-            xml.append("<?xml version=\"1.0\" standalone=\"yes\"?>\n");
-            xml.append("<RECORDS>\n");
-            while (cursor.moveToNext()) {
-                xml.append("\t<RECORD>\n");
-                String user = cursor.getString(cursor.getColumnIndex("user"));
-                String pwd = cursor.getString(cursor.getColumnIndex("password"));
-                String url = cursor.getString(cursor.getColumnIndex("url"));
-                user = AES.decrypt(MyAppModel.getZpassword(), user);
-                user = AES.encrypt(dcmm, user);
-
-                pwd = AES.decrypt(MyAppModel.getZpassword(), pwd);
-                pwd = AES.encrypt(dcmm,pwd );
-
-                url = AES.decrypt(MyAppModel.getZpassword(), url);
-                url = AES.encrypt(dcmm, url);
-
-                xml.append("\t\t<user>" + user + "</user>\n");
-                xml.append("\t\t<pwd>" + pwd + "</pwd>\n");
-                xml.append("\t\t<url>" + url + "</url>\n");
-                xml.append("\t\t<group>" + cursor.getString(cursor.getColumnIndex("group")) + "</group>\n");
-                xml.append("\t\t<carID>" + cursor.getString(cursor.getColumnIndex("carID")) + "</carID>\n");
-                xml.append("\t\t<date>" + cursor.getString(cursor.getColumnIndex("date")) + "</date>\n");
-                xml.append("\t\t<ls>" + cursor.getString(cursor.getColumnIndex("ls")) + "</ls>\n");
-                xml.append("\t\t<ggrq>" + cursor.getString(cursor.getColumnIndex("ggrq")) + "</ggrq>\n");
-                xml.append("\t\t<bz1>" + cursor.getString(cursor.getColumnIndex("bz1")) + "</bz1>\n");
-                xml.append("\t\t<bz2>" + cursor.getString(cursor.getColumnIndex("bz2")) + "</bz2>\n");
-                xml.append("\t\t<bz3>" + cursor.getString(cursor.getColumnIndex("bz3")) + "</bz3>\n");
-                xml.append("\t</RECORD>\n");
+    private int Export_Message = 0;//导出消息
+    private int Import_Message = 1;//导入消息
+    //Message消息回调
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            Bundle bundle = msg.getData();
+            String str_msg = bundle.getString("msg");
+            if (bundle != null) {
+                Toast.makeText(MainActivity.this, str_msg, LENGTH_LONG).show();
             }
-            cursor.close();
-            xml.append("</RECORDS>\n");
-            //getExternalCacheDir()
-            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(),
-                    "MyPassWordDate/date.xml");
-           // File xml_path = new File(getExternalCacheDir(), "date.xml");
-            if(!xml_path.exists()){
-                File file = xml_path.getParentFile();
-                if(!file.exists()){
-                    file.mkdir();
-                }
-                xml_path.createNewFile();
-            }
-            FileOutputStream outputStream = new FileOutputStream(xml_path);
-            outputStream.write(xml.toString().getBytes());
-            xml.setLength(0);
-            outputStream.close();
-            Toast.makeText(this,getResources().getString(R.string.dccg_path)
-                    +"\n"+xml_path.toString(),Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(this,getResources().getString(R.string.dcsb)
-            +"\n"+e.toString(),Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    public void inputDate() {
-        try {
-
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            XmlPullParser xmlPullParser = factory.newPullParser();
-            File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(),
-                    "MyPassWordDate/date.xml");
-            if(!xml_path.exists()){
-                MyAppModel.ShowToast(this,R.string.file_error);
-                return;
-            }
-            InputStream inputStream = new FileInputStream(xml_path);
-            xmlPullParser.setInput(inputStream, "UTF-8");
-            int eventType = xmlPullParser.getEventType();
-            //user, pwd, url, group, carID, date, ls, ggrq, bz1, bz2, bz3
-            String user = "", pwd = "", url = "", group = "", carID = "", date = "",
-                    ls = "", ggrq = "", bz1 = "", bz2 = "", bz3 = "";
-            int Sum = 0;
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                String nodeName = xmlPullParser.getName();
-                switch (eventType) {
-                    case XmlPullParser.START_DOCUMENT:
-                        break;
-                    case XmlPullParser.START_TAG:
-                        if ("user".equals(nodeName)) {
-                            user = xmlPullParser.nextText();
-                            user = AES.decrypt(MyAppModel.getDcmm(),user);
-                            user = AES.encrypt(MyAppModel.getZpassword(),user);
-                        } else if ("pwd".equals(nodeName)) {
-                            pwd = xmlPullParser.nextText();
-                            pwd = AES.decrypt(MyAppModel.getDcmm(),pwd);
-                            pwd = AES.encrypt(MyAppModel.getZpassword(),pwd);
-                        } else if ("url".equals(nodeName)) {
-                            url = xmlPullParser.nextText();
-                            url = AES.decrypt(MyAppModel.getDcmm(),url);
-                            url = AES.encrypt(MyAppModel.getZpassword(),url);
-                        } else if ("group".equals(nodeName)) {
-                            group = xmlPullParser.nextText();
-                        } else if ("carID".equals(nodeName)) {
-                            carID = xmlPullParser.nextText();
-                        } else if ("date".equals(nodeName)) {
-                            date = xmlPullParser.nextText();
-                        } else if ("ls".equals(nodeName)) {
-                            ls = xmlPullParser.nextText();
-                        } else if ("ggrq".equals(nodeName)) {
-                            ggrq = xmlPullParser.nextText();
-                        } else if ("bz1".equals(nodeName)) {
-                            bz1 = xmlPullParser.nextText();
-                        } else if ("bz2".equals(nodeName)) {
-                            bz2 = xmlPullParser.nextText();
-                        } else if ("bz3".equals(nodeName)) {
-                            bz3 = xmlPullParser.nextText();
-                        }
-                        break;
-                    case XmlPullParser.END_TAG:
-                        ContentValues values = new ContentValues();
-                        values.put("user", user);
-                        values.put("password", pwd);
-                        values.put("url", url);
-                        values.put("\"group\"", group);
-                        values.put("carID", carID);
-                        values.put("date", date);
-                        values.put("ls", ls);
-                        values.put("ggrq", ggrq);
-                        values.put("bz1", bz1);
-                        values.put("bz2", bz2);
-                        values.put("bz3", bz3);
-                        if ("RECORD".equals(nodeName)) {
-                            long id = db.insert("date", null, values);
-                                if(id>0){
-                                    Sum++;
-                                }
-                        }
-                        values.clear();
-                        break;
-                    default:
-                        break;
-                }
-                eventType = xmlPullParser.next();
-            }
-            if ( Sum <= 0) {
-                MyAppModel.ShowToast(this, R.string.drsb);
-            } else {
-                MyAppModel.ShowToast(this, R.string.drcg);
-                //更新列表数据
+            if(msg.what == Import_Message){
                 list.clear();
                 addDate();
                 adapter.thlist(list);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+    };
+
+    public void outputDate() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String sql = getResources().getString(R.string.dcSql);
+                Cursor cursor = db.rawQuery(sql, null);
+                //select user,password,"group",url,carID,date,ls,ggrq,bz1,bz2,bz3 from date
+                if (cursor.getCount() == 0) {
+                    cursor.close();
+                    return;
+                }
+                String dcmm = MyAppModel.getDcmm();
+                Message message = new Message();
+                Bundle bundle = new Bundle();
+                message.what = Export_Message;
+                try {
+                    StringBuffer xml = new StringBuffer();
+                    //  \t  Tab  \n空格
+                    xml.append("<?xml version=\"1.0\" standalone=\"yes\"?>\n");
+                    xml.append("<RECORDS>\n");
+                    while (cursor.moveToNext()) {
+                        xml.append("\t<RECORD>\n");
+                        String user = cursor.getString(cursor.getColumnIndex("user"));
+                        String pwd = cursor.getString(cursor.getColumnIndex("password"));
+                        String url = cursor.getString(cursor.getColumnIndex("url"));
+                        user = AES.decrypt(MyAppModel.getZpassword(), user);
+                        user = AES.encrypt(dcmm, user);
+
+                        pwd = AES.decrypt(MyAppModel.getZpassword(), pwd);
+                        pwd = AES.encrypt(dcmm, pwd);
+
+                        url = AES.decrypt(MyAppModel.getZpassword(), url);
+                        url = AES.encrypt(dcmm, url);
+
+                        xml.append("\t\t<user>" + user + "</user>\n");
+                        xml.append("\t\t<pwd>" + pwd + "</pwd>\n");
+                        xml.append("\t\t<url>" + url + "</url>\n");
+                        xml.append("\t\t<group>" + cursor.getString(cursor.getColumnIndex("group")) + "</group>\n");
+                        xml.append("\t\t<carID>" + cursor.getString(cursor.getColumnIndex("carID")) + "</carID>\n");
+                        xml.append("\t\t<date>" + cursor.getString(cursor.getColumnIndex("date")) + "</date>\n");
+                        xml.append("\t\t<ls>" + cursor.getString(cursor.getColumnIndex("ls")) + "</ls>\n");
+                        xml.append("\t\t<ggrq>" + cursor.getString(cursor.getColumnIndex("ggrq")) + "</ggrq>\n");
+                        xml.append("\t\t<bz1>" + cursor.getString(cursor.getColumnIndex("bz1")) + "</bz1>\n");
+                        xml.append("\t\t<bz2>" + cursor.getString(cursor.getColumnIndex("bz2")) + "</bz2>\n");
+                        xml.append("\t\t<bz3>" + cursor.getString(cursor.getColumnIndex("bz3")) + "</bz3>\n");
+                        xml.append("\t</RECORD>\n");
+                    }
+                    cursor.close();
+                    xml.append("</RECORDS>\n");
+                    //getExternalCacheDir()
+                    File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(),
+                            "MyPassWordDate/date.xml");
+                    // File xml_path = new File(getExternalCacheDir(), "date.xml");
+
+                    if (!xml_path.exists()) {
+                        File file = xml_path.getParentFile();
+                        if (!file.exists()) {
+                            if (!file.mkdir()) {
+                                bundle.putString("msg", getResources().getString(R.string.create_file_error));
+                                message.setData(bundle);
+                                //  handler.sendMessage(message);
+                            }
+                        }
+                        if (!xml_path.createNewFile()) {
+                            bundle.putString("msg", getResources().getString(R.string.create_file_error));
+                            message.setData(bundle);
+                            //  handler.sendMessage(message);
+                        }
+                    }
+                    FileOutputStream outputStream = new FileOutputStream(xml_path);
+                    outputStream.write(xml.toString().getBytes());
+                    xml.setLength(0);
+                    outputStream.close();
+                    bundle.putString("msg", getResources().getString(R.string.dccg_path) + "\n" + xml_path);
+                    message.setData(bundle);
+                    //handler.sendMessage(message);
+                } catch (Exception e) {
+                    bundle.putString("msg", getResources().getString(R.string.dcsb) + "\n" + e.toString());
+                    message.setData(bundle);
+                    //handler.sendMessage(message);
+                } finally {
+                    handler.sendMessage(message);
+                }
+
+            }
+        }).start();
+
+    }
+
+    public void inputDate() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                Bundle bundle = new Bundle();
+                message.what = Import_Message;
+                try {
+
+                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                    XmlPullParser xmlPullParser = factory.newPullParser();
+                    File xml_path = new File(Environment.getExternalStorageDirectory().getAbsoluteFile(),
+                            "MyPassWordDate/date.xml");
+                    if (!xml_path.exists()) {
+                        bundle.putString("msg",getResources().getString(R.string.file_error));
+                        return;
+                    }
+                    InputStream inputStream = new FileInputStream(xml_path);
+                    xmlPullParser.setInput(inputStream, "UTF-8");
+                    int eventType = xmlPullParser.getEventType();
+                    //user, pwd, url, group, carID, date, ls, ggrq, bz1, bz2, bz3
+                    String user = "", pwd = "", url = "", group = "", carID = "", date = "",
+                            ls = "", ggrq = "", bz1 = "", bz2 = "", bz3 = "";
+                    int Sum = 0;
+                    while (eventType != XmlPullParser.END_DOCUMENT) {
+                        String nodeName = xmlPullParser.getName();
+                        switch (eventType) {
+                            case XmlPullParser.START_DOCUMENT:
+                                break;
+                            case XmlPullParser.START_TAG:
+                                if ("user".equals(nodeName)) {
+                                    user = xmlPullParser.nextText();
+                                    user = AES.decrypt(MyAppModel.getDcmm(), user);
+                                    user = AES.encrypt(MyAppModel.getZpassword(), user);
+                                } else if ("pwd".equals(nodeName)) {
+                                    pwd = xmlPullParser.nextText();
+                                    pwd = AES.decrypt(MyAppModel.getDcmm(), pwd);
+                                    pwd = AES.encrypt(MyAppModel.getZpassword(), pwd);
+                                } else if ("url".equals(nodeName)) {
+                                    url = xmlPullParser.nextText();
+                                    url = AES.decrypt(MyAppModel.getDcmm(), url);
+                                    url = AES.encrypt(MyAppModel.getZpassword(), url);
+                                } else if ("group".equals(nodeName)) {
+                                    group = xmlPullParser.nextText();
+                                } else if ("carID".equals(nodeName)) {
+                                    carID = xmlPullParser.nextText();
+                                } else if ("date".equals(nodeName)) {
+                                    date = xmlPullParser.nextText();
+                                } else if ("ls".equals(nodeName)) {
+                                    ls = xmlPullParser.nextText();
+                                } else if ("ggrq".equals(nodeName)) {
+                                    ggrq = xmlPullParser.nextText();
+                                } else if ("bz1".equals(nodeName)) {
+                                    bz1 = xmlPullParser.nextText();
+                                } else if ("bz2".equals(nodeName)) {
+                                    bz2 = xmlPullParser.nextText();
+                                } else if ("bz3".equals(nodeName)) {
+                                    bz3 = xmlPullParser.nextText();
+                                }
+                                break;
+                            case XmlPullParser.END_TAG:
+                                ContentValues values = new ContentValues();
+                                values.put("user", user);
+                                values.put("password", pwd);
+                                values.put("url", url);
+                                values.put("\"group\"", group);
+                                values.put("carID", carID);
+                                values.put("date", date);
+                                values.put("ls", ls);
+                                values.put("ggrq", ggrq);
+                                values.put("bz1", bz1);
+                                values.put("bz2", bz2);
+                                values.put("bz3", bz3);
+                                if ("RECORD".equals(nodeName)) {
+                                    long id = db.insert("date", null, values);
+                                    if (id > 0) {
+                                        Sum++;
+                                    }
+                                }
+                                values.clear();
+                                break;
+                            default:
+                                break;
+                        }
+                        eventType = xmlPullParser.next();
+                    }
+                    if (Sum <= 0) {
+                        bundle.putString("msg",getResources().getString(R.string.drsb));
+                    } else {
+                        bundle.putString("msg",getResources().getString(R.string.drcg)+"\n:"+Sum);
+                    }
+                } catch (Exception e) {
+                    bundle.putString("msg",getResources().getString(R.string.drsb)+"\n"+e.toString());
+                }
+                finally {
+                    message.setData(bundle);
+                    handler.sendMessage(message);
+                }
+            }
+        }).start();
     }
 }
 

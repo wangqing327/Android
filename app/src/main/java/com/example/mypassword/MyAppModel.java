@@ -39,19 +39,20 @@ public class MyAppModel extends Application {
         MyAppModel.zpassword = zpassword;
     }
 
-    public static int getgroupID(String lable) {
+    public static int getgroupID(String label) {
         //网页","电子邮件", "银行卡", "软件", "其他
 
-        if (lable.equals("网页")) {
-            return 0;
-        } else if (lable.equals("电子邮件")) {
-            return 1;
-        } else if (lable.equals("银行卡")) {
-            return 2;
-        } else if (lable.equals("软件")) {
-            return 3;
-        } else if (lable.equals("其他")) {
-            return 4;
+        switch (label) {
+            case "网页":
+                return 0;
+            case "电子邮件":
+                return 1;
+            case "银行卡":
+                return 2;
+            case "软件":
+                return 3;
+            case "其他":
+                return 4;
         }
         return 0;
     }
